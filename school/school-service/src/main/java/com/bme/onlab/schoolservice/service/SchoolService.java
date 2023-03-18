@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -13,10 +14,14 @@ public class SchoolService {
 
     final private SchoolRepository schoolRepository;
 
-    public void increaseBudgetBy(Integer value, Integer id){
+    public void increaseBudgetBy(BigDecimal value, Integer id){
         School school = schoolRepository.findById(id).get();
         BigDecimal schoolBudget = school.getBudget();
-        school.setBudget(schoolBudget.add(BigDecimal.valueOf(value)));
+        school.setBudget(schoolBudget.add(value));
         schoolRepository.save(school);
+    }
+
+    public List<School> listSchools(){
+        return schoolRepository.findAll();
     }
 }
