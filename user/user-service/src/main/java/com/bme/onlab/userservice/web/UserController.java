@@ -33,7 +33,6 @@ public class UserController implements UserApi {
 
     @Override
     public List<User> listAll() {
-
-        return null;
+        return userServcie.listUsers();
     }
 }

@@ -1,17 +1,5 @@
 spring:
-  datasource:
-    url: jdbc:postgresql://localhost:5432/school-service
-    username: postgres
-    password: postgres
-
-  jpa:
-    hibernate:
-      ddl-auto: update
-    show-sql: true
-
-  sql:
-    init:
-      mode: always
-
-server:
-  port:  8085
+  application:
+    name: school
+  config:
+    import: configserver:http://localhost:8081

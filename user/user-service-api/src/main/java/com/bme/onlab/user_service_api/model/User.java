@@ -3,6 +3,8 @@ package com.bme.onlab.user_service_api.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 @Builder
 @Getter
 @Setter
@@ -16,10 +18,15 @@ public class User {
     private Integer id;
 
     private String name;
-    @NonNull private String username;
-    @NonNull private String password;
+    @NonNull
+    private String username;
+    @NonNull
+    private String password;
     @Enumerated(EnumType.STRING)
     private Role role;
-    @NonNull private Integer schoolID;
+    @NonNull
+    private Integer schoolID;
     private Integer classID;
+    @ElementCollection
+    private List<Integer> requestGroupIDs;
 }

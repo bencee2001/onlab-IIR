@@ -18,8 +18,13 @@
     <modules>
         <module>user/user-service</module>
         <module>user/user-service-api</module>
-        <module>school-service</module>
-        <module>school-service-api</module>
+        <module>school/school-service</module>
+        <module>school/school-service-api</module>
+        <module>config</module>
+        <module>discovery</module>
+        <module>gateway</module>
+        <module>request/request-service</module>
+        <module>request/request-service-api</module>
     </modules>
 
 </project>

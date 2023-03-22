@@ -5,9 +5,11 @@ import com.bme.onlab.user_service_api.model.User;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
 
+@RequestMapping("/user")
 public interface UserApi {
 
 
@@ -20,6 +22,6 @@ public interface UserApi {
     @PostMapping("/newRole/{id}")
     void setNewRole(@PathVariable Integer id, Role newRole);
 
-    @GetMapping("/listAll")
+    @GetMapping("/listusers")
     List<User> listAll();
 }
