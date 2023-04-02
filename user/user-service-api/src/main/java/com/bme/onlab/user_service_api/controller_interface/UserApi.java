@@ -2,19 +2,16 @@ package com.bme.onlab.user_service_api.controller_interface;
 
 import com.bme.onlab.user_service_api.model.Role;
 import com.bme.onlab.user_service_api.model.User;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RequestMapping("/user")
+@FeignClient(name="user" , url="${feign.user.url}")
 public interface UserApi {
 
-
     @GetMapping("/createUser")
-    void createUser(String name, String username, String password, Role role, Integer schoolId, Integer classId);
+    void createUser();
 
     @PostMapping("/delete/{id}")
     void delete(@PathVariable Integer id);
@@ -24,4 +21,9 @@ public interface UserApi {
 
     @GetMapping("/listusers")
     List<User> listAll();
+
+    @PostMapping("newgroupid/{userId}")
+    void addRequestGroupId(@PathVariable Integer userId, @RequestParam String groupId);
+
+    //TODO listener
 }

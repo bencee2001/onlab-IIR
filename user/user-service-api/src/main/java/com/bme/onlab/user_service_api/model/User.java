@@ -28,5 +28,9 @@ public class User {
     private Integer schoolID;
     private Integer classID;
     @ElementCollection
-    private List<Integer> requestGroupIDs;
+    private List<String> requestGroupIDs;
+
+    public void addNewGroupId(String groupId){
+        requestGroupIDs.add(groupId);
+    }
 }

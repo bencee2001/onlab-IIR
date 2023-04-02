@@ -1,9 +1,6 @@
 package com.bme.onlab.requestserviceapi.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.Date;
@@ -17,6 +14,7 @@ import java.util.Date;
 public class Request {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
     private Integer senderID;
@@ -27,5 +25,5 @@ public class Request {
     @Enumerated(EnumType.STRING)
     private Status status;
 
-    private Integer groupId;
+    private String groupId;
 }

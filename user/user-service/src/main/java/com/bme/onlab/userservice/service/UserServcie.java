@@ -45,4 +45,10 @@ public class UserServcie {
     public List<User> listUsers(){
         return userRepository.findAll();
     }
+
+    public void addGroupId(Integer userId, String requestGroupId){
+        User user = userRepository.findById(userId).get();//TODO null check
+        user.addNewGroupId(requestGroupId);
+        userRepository.save(user);
+    }
 }

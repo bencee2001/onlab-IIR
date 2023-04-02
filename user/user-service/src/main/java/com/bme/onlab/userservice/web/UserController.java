@@ -5,6 +5,8 @@ import com.bme.onlab.user_service_api.model.User;
 import com.bme.onlab.userservice.service.UserServcie;
 import lombok.RequiredArgsConstructor;
 import com.bme.onlab.user_service_api.model.Role;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
@@ -17,7 +19,7 @@ public class UserController implements UserApi {
     private final UserServcie userServcie;
 
     @Override
-    public void createUser(String name, String username, String password, Role role, Integer schoolId, Integer classId) {
+    public void createUser() {
 
     }
 
@@ -35,4 +37,12 @@ public class UserController implements UserApi {
     public List<User> listAll() {
         return userServcie.listUsers();
     }
+
+    @Override
+    public void addRequestGroupId(Integer userId,String groupId) {
+        userServcie.addGroupId(userId,groupId);
+    }
+
+
+    //TODO Listener
 }
