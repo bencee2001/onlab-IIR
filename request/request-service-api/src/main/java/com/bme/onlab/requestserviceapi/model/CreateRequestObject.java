@@ -5,7 +5,7 @@ import lombok.Getter;
 import java.text.SimpleDateFormat;
 
 @Getter
-public class RequestDTO {
+public class CreateRequestObject {
 
     private static final SimpleDateFormat dateFormat
             = new SimpleDateFormat("yyyy-MM-dd HH:mm");

@@ -1,14 +1,22 @@
 package com.bme.onlab.schoolserviceapi.controller_interface;
 
+import com.bme.onlab.errors.NoSuchSchoolException;
 import com.bme.onlab.schoolserviceapi.model.School;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.List;
 
-@RequestMapping("/school")
+@FeignClient(name = "school", url = "${feign.request.url}")
 public interface SchoolApi {
 
-    @GetMapping("/listschools")
+    @GetMapping("/school/listschools")
     public List<School> listAll();
+
+    @GetMapping("/school/getschool/{id}")
+    public School getSchoolById(@PathVariable Integer id) throws NoSuchSchoolException;
+
+    @PostMapping("/school/budgetmod/{id}")
+    public void addToBudget(@PathVariable Integer id,@RequestParam BigDecimal amount) throws NoSuchSchoolException;
 }

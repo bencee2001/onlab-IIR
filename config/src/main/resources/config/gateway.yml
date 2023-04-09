@@ -18,3 +18,7 @@ spring:
           uri: lb://school
           predicates:
             - Path=/school/**
+        - id: request
+          uri: lb://request
+          predicates:
+            - Path=/request/**

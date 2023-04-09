@@ -25,6 +25,9 @@
         <module>gateway</module>
         <module>request/request-service</module>
         <module>request/request-service-api</module>
+        <module>libs/errors</module>
+
+        <module>kafka</module>
     </modules>
 
 </project>

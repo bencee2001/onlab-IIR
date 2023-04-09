@@ -56,7 +56,21 @@
 			<artifactId>user-service-api</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
-	</dependencies>
+
+		<dependency>
+			<groupId>com.bme.onlab</groupId>
+			<artifactId>request-service-api</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+        <dependency>
+            <groupId>com.bme.onlab</groupId>
+            <artifactId>errors</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
+
+
+    </dependencies>
 
 	<dependencyManagement>
 		<dependencies>

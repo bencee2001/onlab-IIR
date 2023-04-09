@@ -10,5 +10,5 @@ import java.util.List;
 @Repository
 public interface RequestRepository extends JpaRepository<Request, Integer> {
 
-    List<Request> findByGroupId(String groupId);
+    List<Request> findByGroupIdOrderBySendDate(String groupId);
 }

@@ -13,6 +13,9 @@ spring:
     init:
       mode: always
 
+  kafka:
+    bootstrap-servers: localhost:9092
+
 server:
   port: 8084
 

@@ -4,3 +4,8 @@ spring:
 
   config:
     import: configserver:http://localhost:8081
+
+
+feign:
+  request:
+    url: http://localhost:8080
