@@ -25,7 +25,7 @@ public class RequestServiceApplication {
 
 	}
 
-	@Bean
+	/*@Bean
 	CommandLineRunner clr(KafkaTemplate<String, KafkaRequestObject> kafkaTemplate){
 		return args ->{
 			kafkaTemplate.send("newRequestGroup",
@@ -35,6 +35,6 @@ public class RequestServiceApplication {
 							.senderID(200)
 							.build());
 		};
-	}
+	}*/
 
 }

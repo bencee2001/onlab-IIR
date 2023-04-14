@@ -5,9 +5,11 @@ import com.bme.onlab.requestservice.repository.RequestRepository;
 import com.bme.onlab.requestserviceapi.model.Request;
 import com.bme.onlab.requestserviceapi.model.CreateRequestObject;
 import com.bme.onlab.requestserviceapi.model.Status;
+import com.bme.onlab.requestserviceapi.model.UserIdAndPrice;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -18,17 +20,21 @@ public class RequestService {
 
     final private RequestRepository requestRepository;
 
-    public String createGroup(CreateRequestObject requestDTO){
+    public String createGroup(CreateRequestObject CRO){
         String uuid = UUID.randomUUID().toString();
         Request request =
                 Request.builder()
-                        .senderID(requestDTO.getSenderID())
-                        .recieverID(requestDTO.getRecieverID())
+                        .senderID(CRO.getSenderID())
+                        .recieverID(CRO.getRecieverID())
                         .sendDate(new Date())
+                        .message(CRO.getMessage())
                         .groupId(uuid)
                         .status(Status.Asking)
+                        .price(CRO.getPrice())
                         .build();
 
+        System.out.println("----------------");
+        System.out.println(request.getPrice());
         requestRepository.save(request);
         return uuid;
     }
@@ -37,7 +43,7 @@ public class RequestService {
         Request request = checkRequestGroup(groupId);
         if (request == null) return;
 
-        Request newReq = makeNewRequest(request,Status.Asking);
+        Request newReq = makeNewRequest(request,message,Status.Asking);
 
         request.setStatus(Status.Answered);
         requestRepository.save(request);
@@ -45,22 +51,35 @@ public class RequestService {
     }
 
 
-    public void acceptRequest(String groupId) throws AlreadyAnsweredRequestException {
+    public UserIdAndPrice acceptRequest(String groupId, String message) throws AlreadyAnsweredRequestException {
+        Request request = checkRequestGroup(groupId);
+        if (request == null) return null;
+
+        Request newReq=makeNewRequest(request,message,Status.Accepted);
+
+        request.setStatus(Status.Answered);
+        requestRepository.save(request);
+        requestRepository.save(newReq);
+        return new UserIdAndPrice(newReq.getSenderID(), newReq.getPrice());
+    }
+
+    public void counterRequest(String groupId, String message, BigDecimal newPrice) throws AlreadyAnsweredRequestException {
         Request request = checkRequestGroup(groupId);
         if (request == null) return;
 
-        Request newReq=makeNewRequest(request,Status.Accepted);
+        Request newReq=makeNewRequest(request,message,Status.Asking);
+        newReq.setPrice(newPrice);
 
         request.setStatus(Status.Answered);
         requestRepository.save(request);
         requestRepository.save(newReq);
     }
 
-    public void rejectRequest(String groupId) throws AlreadyAnsweredRequestException {
+    public void rejectRequest(String groupId, String  message) throws AlreadyAnsweredRequestException {
         Request request = checkRequestGroup(groupId);
         if (request == null) return;
 
-        Request newReq=makeNewRequest(request,Status.Rejected);
+        Request newReq=makeNewRequest(request,message,Status.Rejected);
 
         request.setStatus(Status.Answered);
         requestRepository.save(request);
@@ -79,6 +98,14 @@ public class RequestService {
         });
     }
 
+    public List<Request> getAllRequest() {
+        return requestRepository.findAll();
+    }
+
+    public List<String> getAllGroupIds(){
+        return requestRepository.findGroupIds();
+    }
+
     private Request checkRequestGroup(String groupId) throws AlreadyAnsweredRequestException {
         List<Request> requestList = requestRepository.findByGroupIdOrderBySendDate(groupId);
         Request request = null;
@@ -93,13 +120,15 @@ public class RequestService {
         return request;
     }
 
-    private static Request makeNewRequest(Request request, Status status) {
+    private static Request makeNewRequest(Request request,String message, Status status) {
         return Request.builder()
-                .senderID(request.getSenderID())
-                .recieverID(request.getRecieverID())
+                .senderID(request.getRecieverID())
+                .recieverID(request.getSenderID())
                 .sendDate(new Date())
+                .message(message)
                 .groupId(request.getGroupId())
                 .status(status)
+                .price(request.getPrice())
                 .build();
     }
 }

@@ -3,6 +3,7 @@ package com.bme.onlab.requestserviceapi.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 @Entity
@@ -11,6 +12,7 @@ import java.util.Date;
 @AllArgsConstructor
 @Builder
 @NoArgsConstructor
+@Table(name = "request")
 public class Request {
 
     @Id
@@ -26,4 +28,7 @@ public class Request {
     private Status status;
 
     private String groupId;
+
+    private BigDecimal price;
+
 }

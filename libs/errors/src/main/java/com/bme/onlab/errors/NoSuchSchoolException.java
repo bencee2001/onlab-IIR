@@ -1,6 +1,5 @@
 package com.bme.onlab.errors;
 
-import org.hibernate.jdbc.Expectations;
 
 import java.io.Serializable;
 

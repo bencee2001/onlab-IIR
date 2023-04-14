@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.math.BigDecimal;
 import java.util.List;
 
-@FeignClient(name = "school", url = "${feign.request.url}")
+@FeignClient(name = "school", url = "http://localhost:8080")
 public interface SchoolApi {
 
     @GetMapping("/school/listschools")
