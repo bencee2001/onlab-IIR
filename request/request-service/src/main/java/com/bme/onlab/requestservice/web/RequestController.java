@@ -5,7 +5,6 @@ import com.bme.onlab.errors.NoSuchSchoolException;
 import com.bme.onlab.errors.NoSuchUserException;
 import com.bme.onlab.requestservice.service.RequestService;
 import com.bme.onlab.requestserviceapi.controller_interface.RequestApi;
-import com.bme.onlab.kafka.model.KafkaRequestObject;
 import com.bme.onlab.requestserviceapi.model.Request;
 import com.bme.onlab.requestserviceapi.model.CreateRequestObject;
 import com.bme.onlab.requestserviceapi.model.UserIdAndPrice;
@@ -13,7 +12,6 @@ import com.bme.onlab.schoolserviceapi.controller_interface.SchoolApi;
 import com.bme.onlab.user_service_api.controller_interface.UserApi;
 import com.bme.onlab.user_service_api.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -31,9 +29,6 @@ public class RequestController implements RequestApi {
 
     @Autowired
     SchoolApi schoolApi;
-
-    @Autowired
-    KafkaTemplate<String, KafkaRequestObject> kafkaTemplate; //TODO kafka
 
     @Override
     public void createRequestGroup(@RequestBody CreateRequestObject requestCreateObject) throws NoSuchUserException {
@@ -85,8 +80,4 @@ public class RequestController implements RequestApi {
         requestService.counterRequest(groupId,message,newPrice);
     }
 
-    @Override
-    public void sendKafka(KafkaRequestObject obj) {
-        kafkaTemplate.send("newRequestGroup", obj);
-    }
 }

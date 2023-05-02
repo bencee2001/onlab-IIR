@@ -3,7 +3,6 @@ package com.bme.onlab.requestserviceapi.controller_interface;
 import com.bme.onlab.errors.AlreadyAnsweredRequestException;
 import com.bme.onlab.errors.NoSuchSchoolException;
 import com.bme.onlab.errors.NoSuchUserException;
-import com.bme.onlab.kafka.model.KafkaRequestObject;
 import com.bme.onlab.requestserviceapi.model.Request;
 import com.bme.onlab.requestserviceapi.model.CreateRequestObject;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -42,8 +41,4 @@ public interface RequestApi {
     @PostMapping("/request/counter/{groupId}")
     void counterRequest(@PathVariable String groupId, @RequestParam String message, @RequestParam BigDecimal newPrice) throws AlreadyAnsweredRequestException;
 
-
-
-    @PostMapping("/request/testKafka")
-    void sendKafka(@RequestBody KafkaRequestObject obj); // TODO kafka
 }
