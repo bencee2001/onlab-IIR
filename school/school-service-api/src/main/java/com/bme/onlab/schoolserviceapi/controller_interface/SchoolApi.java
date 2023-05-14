@@ -17,6 +17,9 @@ public interface SchoolApi {
     @GetMapping("/school/getschool/{id}")
     public School getSchoolById(@PathVariable Integer id) throws NoSuchSchoolException;
 
-    @PostMapping("/school/budgetmod/{id}")
-    public void addToBudget(@PathVariable Integer id,@RequestParam BigDecimal amount) throws NoSuchSchoolException;
+    @PutMapping("/school/budgetmod/{id}")
+    public School addToBudget(@PathVariable Integer id,@RequestParam BigDecimal amount) throws NoSuchSchoolException;
+
+    @GetMapping("/school/schoolname/{id}")
+    public String getSchoolName(@PathVariable Integer id) throws NoSuchSchoolException;
 }

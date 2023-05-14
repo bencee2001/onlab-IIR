@@ -13,6 +13,4 @@ public class CreateRequestObject {
 
     private String message;
     private BigDecimal price;
-
-
 }

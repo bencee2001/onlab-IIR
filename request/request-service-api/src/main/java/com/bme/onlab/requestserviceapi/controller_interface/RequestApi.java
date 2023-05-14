@@ -5,6 +5,7 @@ import com.bme.onlab.errors.NoSuchSchoolException;
 import com.bme.onlab.errors.NoSuchUserException;
 import com.bme.onlab.requestserviceapi.model.Request;
 import com.bme.onlab.requestserviceapi.model.CreateRequestObject;
+import com.bme.onlab.requestserviceapi.model.RequestDTO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,6 +17,9 @@ public interface RequestApi {
 
     @GetMapping("/request/getrequests/{groupId}")
     List<Request> getRequestsByGroupId(@PathVariable("groupId") String id);
+
+    @GetMapping("/request/getrequestdtos/{groupId}")
+    List<RequestDTO> getRequestDTOsByGroupId(@PathVariable("groupId") String id) throws NoSuchUserException;
 
     @GetMapping("/request/getrequests")
     List<Request> getRequests();

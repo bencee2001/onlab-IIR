@@ -1,11 +1,10 @@
 package com.bme.onlab.user_service_api.controller_interface;
 
 import com.bme.onlab.errors.NoSuchRoleException;
+import com.bme.onlab.errors.NoSuchSchoolException;
 import com.bme.onlab.errors.NoSuchUserException;
 import com.bme.onlab.requestserviceapi.model.Request;
-import com.bme.onlab.user_service_api.model.Role;
-import com.bme.onlab.user_service_api.model.User;
-import com.bme.onlab.user_service_api.model.UserCreateObject;
+import com.bme.onlab.user_service_api.model.*;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,16 +14,28 @@ import java.util.List;
 public interface UserApi {
 
     @GetMapping("/user/listusers")
-    List<User> listAll();
+    List<UserDto> listAll();
+
+    @GetMapping("/user/listusersbyschool/{schoolId}")
+    List<UserDto> listAllBySchool(@PathVariable Integer schoolId) throws NoSuchSchoolException;
 
     @GetMapping("/user/getuser/{id}")
-    User getUserById(@PathVariable Integer id) throws NoSuchUserException;
+    UserDto getUserById(@PathVariable Integer id) throws NoSuchUserException;
+
+    @GetMapping("/user/getteacherprincipal/{schoolId}")
+    List<UserDto> getTeacherAndPrincipalBySchoolId(@PathVariable Integer schoolId);
+
+    @GetMapping("/user/userrequests/{id}")
+    UserRequestDTO getUserRequests(@PathVariable Integer id) throws NoSuchUserException;
 
     @PostMapping("/user/createUser")
-    void createUser(@RequestBody UserCreateObject user);
+    UserDto createUser(@RequestBody UserCreateObject user);
 
-    @PostMapping("/user/delete/{id}")
+    @DeleteMapping("/user/delete/{id}")
     void delete(@PathVariable Integer id);
+
+    @PutMapping("/user/update")
+    UserDto updateUser(@RequestBody UserUpdateObject userData) throws NoSuchUserException;
 
     @PostMapping("/user/newrole/{id}")
     void setNewRole(@PathVariable Integer id,@RequestParam Role newRole) throws NoSuchUserException, NoSuchRoleException;
@@ -43,8 +54,4 @@ public interface UserApi {
 
     @PostMapping("/user/listreqgroups/{userId}/delreqgroup/{requestGroupId}")
     void removeRequestGroupId(@PathVariable Integer userId, @PathVariable String requestGroupId) throws NoSuchUserException;
-
-
-
-
 }

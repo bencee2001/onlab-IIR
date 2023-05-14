@@ -2,23 +2,26 @@ package com.bme.onlab.requestservice.service;
 
 import com.bme.onlab.errors.AlreadyAnsweredRequestException;
 import com.bme.onlab.requestservice.repository.RequestRepository;
-import com.bme.onlab.requestserviceapi.model.Request;
-import com.bme.onlab.requestserviceapi.model.CreateRequestObject;
-import com.bme.onlab.requestserviceapi.model.Status;
-import com.bme.onlab.requestserviceapi.model.UserIdAndPrice;
+import com.bme.onlab.requestserviceapi.model.*;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class RequestService {
 
     final private RequestRepository requestRepository;
+
+    @Autowired
+    ModelMapper modelMapper;
 
     public String createGroup(CreateRequestObject CRO){
         String uuid = UUID.randomUUID().toString();
@@ -130,5 +133,12 @@ public class RequestService {
                 .status(status)
                 .price(request.getPrice())
                 .build();
+    }
+
+    public List<RequestDTO> getRequestDTOsByGroupId(String groupId) {
+        return getRequestByGroupId(groupId)
+                .stream()
+                .map(request -> modelMapper.map(request,RequestDTO.class))
+                .collect(Collectors.toList());
     }
 }

@@ -52,6 +52,13 @@
 		</dependency>
 
 		<dependency>
+			<groupId>org.modelmapper</groupId>
+			<artifactId>modelmapper</artifactId>
+			<version>3.1.1</version>
+		</dependency>
+
+
+		<dependency>
 			<groupId>com.bme.onlab</groupId>
 			<artifactId>user-service-api</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
@@ -65,6 +72,12 @@
         <dependency>
             <groupId>com.bme.onlab</groupId>
             <artifactId>errors</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.bme.onlab</groupId>
+            <artifactId>school-service-api</artifactId>
             <version>0.0.1-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>

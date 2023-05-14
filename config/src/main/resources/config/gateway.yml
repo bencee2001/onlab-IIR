@@ -22,3 +22,14 @@ spring:
           uri: lb://request
           predicates:
             - Path=/request/**
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins: "http://localhost:4200"
+            allowedHeaders:
+              - content-type
+            allowedMethods:
+              - GET
+              - POST
+              - DELETE
+              - PUT

@@ -16,11 +16,11 @@ public class SchoolService {
 
     final private SchoolRepository schoolRepository;
 
-    public void increaseBudgetBy(Integer id,BigDecimal value) throws NoSuchSchoolException {
+    public School increaseBudgetBy(Integer id,BigDecimal value) throws NoSuchSchoolException {
         School school = getSchoolById(id);
         BigDecimal schoolBudget = school.getBudget();
         school.setBudget(schoolBudget.add(value));
-        schoolRepository.save(school);
+        return schoolRepository.save(school);
     }
 
     public List<School> listSchools(){
@@ -32,5 +32,9 @@ public class SchoolService {
         if(school.isPresent())
             return school.get();
         throw new NoSuchSchoolException();
+    }
+
+    public String getSchoolName(Integer id) throws NoSuchSchoolException {
+        return getSchoolById(id).getSchoolName();
     }
 }

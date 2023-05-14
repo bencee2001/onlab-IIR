@@ -58,6 +58,12 @@
 		</dependency>
 
 		<dependency>
+			<groupId>com.bme.onlab</groupId>
+			<artifactId>school-service-api</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+
+		<dependency>
 			<groupId>org.springdoc</groupId>
 			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
 			<version>2.0.3</version>

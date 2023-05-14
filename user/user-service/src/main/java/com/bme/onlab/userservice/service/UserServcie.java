@@ -2,11 +2,11 @@ package com.bme.onlab.userservice.service;
 
 import com.bme.onlab.errors.NoSuchRoleException;
 import com.bme.onlab.errors.NoSuchUserException;
-import com.bme.onlab.user_service_api.model.Role;
-import com.bme.onlab.user_service_api.model.User;
-import com.bme.onlab.user_service_api.model.UserCreateObject;
+import com.bme.onlab.user_service_api.model.*;
 import com.bme.onlab.userservice.repositroy.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,8 +18,9 @@ import java.util.stream.Collectors;
 public class UserServcie {
 
     private final UserRepository userRepository;
+    private final ModelMapper modelMapper;
 
-    public void createUser(UserCreateObject user){
+    public UserDto createUser(UserCreateObject user){
         User.UserBuilder userBuild = User.builder()
                 .name(user.getName())
                 .username(user.getUsername())
@@ -27,7 +28,7 @@ public class UserServcie {
                 .role(Role.ROLE_STUDENT)
                 .schoolID(user.getSchoolID())
                 .classID(null);
-        userRepository.save(userBuild.build());
+        return modelMapper.map(userRepository.save(userBuild.build()),UserDto.class);
     }
 
     public void deleteUser(Integer id){
@@ -54,8 +55,9 @@ public class UserServcie {
         userRepository.save(user);
     }
 
-    public List<User> listUsers(){
-        return userRepository.findAll();
+    public List<UserDto> listUsers(){
+        return userRepository.findAll()
+                .stream().map(user -> modelMapper.map(user,UserDto.class)).collect(Collectors.toList());
     }
 
     public void addGroupId(Integer userId, String requestGroupId) throws NoSuchUserException {
@@ -70,6 +72,10 @@ public class UserServcie {
             return user.get();
         }
         throw new NoSuchUserException("No user by the id of " + id);
+    }
+
+    public UserDto getUserDtoById(Integer id) throws NoSuchUserException {
+        return modelMapper.map(getUserById(id),UserDto.class);
     }
 
     private Boolean checkRoleExists(Role checkingRole) throws NoSuchRoleException {
@@ -93,5 +99,29 @@ public class UserServcie {
         System.out.println(copyList);
         user.setRequestGroupIDs(copyList);
         userRepository.save(user);
+    }
+
+    public List<UserDto> getUsersBySchool(Integer schoolId) {
+        return userRepository.findAllBySchoolID(schoolId)
+                .stream().map(user -> modelMapper.map(user,UserDto.class)).collect(Collectors.toList());
+    }
+
+    public UserDto updateUser(UserUpdateObject userData) throws NoSuchUserException {
+        User user = getUserById(userData.getId());
+        user.setName(userData.getName());
+        user.setRole(userData.getRole());
+        user.setClassID(userData.getClassId());
+        return modelMapper.map(userRepository.save(user),UserDto.class);
+    }
+
+    public UserRequestDTO getUserRequestsByID(Integer id) throws NoSuchUserException {
+        return modelMapper.map(getUserById(id),UserRequestDTO.class);
+    }
+
+    public List<UserDto> getTeacherAndPrincipal(Integer schoolId) {
+        return getUsersBySchool(schoolId)
+                .stream()
+                .filter(userDto -> userDto.getRole()==Role.ROLE_TEACHER || userDto.getRole()==Role.ROLE_PRINCIPAL)
+                .toList();
     }
 }
